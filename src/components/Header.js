@@ -1,0 +1,10 @@
+import logo from '../image/logo.svg'
+function Header() {
+    return (
+    <header className="header">
+      <img src={logo} alt="логотип" className="header__logo"/>
+    </header>
+    )
+}
+
+export default Header
