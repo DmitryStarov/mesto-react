@@ -1,11 +1,13 @@
 import React from "react";
 import { api } from "../utils/Api"
-function Main({onEditProfile, onAddPlace, onEditAvatar}) {
+import Cards from './Cards';
+function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
 
   const [userName, setUserName] = React.useState();
   const [userDescription, setUserDescription] = React.useState();
   const [userAvatar, setUserAvatar] = React.useState();
   const [cards, setCards] = React.useState([]);
+
   React.useEffect(() => {
     Promise.all([
       api.getUserInfo(),
@@ -40,17 +42,7 @@ function Main({onEditProfile, onAddPlace, onEditAvatar}) {
       <section className="photo-grid">
         <ul className="cards">
           {cards.map(card => (
-              <li className="cards__item">
-              <img className="cards__image" alt={card.name} src={card.link}  />
-              <button type="button" className="cards__button-remove"></button>
-              <div className="cards__description">
-                <h2 className="cards__title">{card.name}</h2>
-                <div className="cards__like-container">
-                  <button type="button" className="cards__button-like"></button>
-                  <span className="cards__like-count">{card.likes.length}</span>
-                </div>
-              </div>
-            </li>
+            <Cards card={card} onCardClick={onCardClick}/>
           ))}
         </ul>
       </section>
