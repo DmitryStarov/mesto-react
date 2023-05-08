@@ -1,52 +1,88 @@
 import '../App.css';
 import Header from './Header';
 import Main from './Main';
-import Footer from './Footer'; 
+import Footer from './Footer';
+import PopupWithForm from './PopupWithForm';
+import React from 'react';
 
 function App() {
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen]= React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(true);
+  }
+
+function handleEditProfileClick() {
+  setIsEditProfilePopupOpen(true);
+  }
+
+function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true);
+  }
+
+function closeAllPopups() {
+  setIsEditAvatarPopupOpen(false);
+  setIsEditProfilePopupOpen(false);
+  setIsAddPlacePopupOpen(false);
+}
   return (
     <body className="page">
     <Header />
-    <Main />
+
+    <Main
+      onEditProfile={handleEditProfileClick}
+      onAddPlace={handleAddPlaceClick}
+      onEditAvatar={handleEditAvatarClick}/>
+
     <Footer />
-    <div className="popup popup_type_edit-user">
-      <div className="popup__container">
-        <button type="button" className="popup__button-close"></button>
-        <h2 className="popup__title">Редактировать профиль</h2>
-          <form name="form-user-edit" className="popup__form">
-            <fieldset className="popup__fieldset">
-              <label className="popup__field">
-                <input type="text" name="name" id="name-input" placeholder="Имя пользователя" className="popup__input popup__input_type_name" minlength="2" maxlength="40" autocomplete="off" required/>
-                <span className="popup__error-message name-input-error"></span>
-              </label>
-              <label className="popup__field">
-                <input type="text" name="about" id="about-input" placeholder="О себе" className="popup__input popup__input_type_about" minlength="2" maxlength="200" autocomplete="off" required/>
-                <span className="popup__error-message popup__error-message_visible about-input-error"></span>
-              </label>
-            <button type="submit" className="popup__button-save">Сохранить</button>
-        </fieldset>
-        </form>
-      </div>
-    </div>
-    <div className="popup popup_type_add-image">
-      <div className="popup__container">
-        <button type="button" className="popup__button-close"></button>
-        <h2 className="popup__title">Новое место</h2>
-        <form name="form-add-image" className="popup__form">
-          <fieldset className="popup__fieldset">
-            <label className="popup__field">
-              <input type="text" name="name" id="image-input" placeholder="Название" className="popup__input popup__input_type_image-name" minlength="2" maxlength="30" autocomplete="off" required/>
-              <span className="popup__error-message popup__error-message_visible image-input-error"></span>
-            </label>
-            <label className="popup__field">
-              <input type="url" name="link" id="link-input" placeholder="Ссылка на картинку" className="popup__input popup__input_type_image-link" required />
-              <span className="popup__error-message popup__error-message_visible link-input-error"></span>
-            </label>
-            <button type="submit" className="popup__button-save">Создать</button>
-          </fieldset>
-        </form>
-      </div>
-    </div>
+
+    <PopupWithForm
+      name={'edit-user'}
+      title={'Редактировать профиль'}
+      isOpen={isEditProfilePopupOpen}
+      onClose={closeAllPopups}
+      buttonText={'Сохранить'}
+    >
+        <label className="popup__field">
+            <input type="text" name="name" id="name-input" placeholder="Имя пользователя" className="popup__input popup__input_type_name" minlength="2" maxlength="40" autocomplete="off" required/>
+            <span className="popup__error-message name-input-error"></span>
+        </label>
+        <label className="popup__field">
+          <input type="text" name="about" id="about-input" placeholder="О себе" className="popup__input popup__input_type_about" minlength="2" maxlength="200" autocomplete="off" required/>
+          <span className="popup__error-message popup__error-message_visible about-input-error"></span>
+        </label>
+    </PopupWithForm>
+
+    <PopupWithForm
+      name='add-image'
+      title='Новое место'
+      isOpen={isAddPlacePopupOpen}
+      onClose={closeAllPopups}
+      buttonText={'Создать'}>
+        <label className="popup__field">
+          <input type="text" name="name" id="image-input" placeholder="Название" className="popup__input popup__input_type_image-name" minlength="2" maxlength="30" autocomplete="off" required/>
+          <span className="popup__error-message popup__error-message_visible image-input-error"></span>
+        </label>
+        <label className="popup__field">
+          <input type="url" name="link" id="link-input" placeholder="Ссылка на картинку" className="popup__input popup__input_type_image-link" required />
+          <span className="popup__error-message popup__error-message_visible link-input-error"></span>
+        </label>
+    </PopupWithForm>
+
+    <PopupWithForm
+      name={'edit-avatar'}
+      title={'Обновить аватар'}
+      isOpen={isEditAvatarPopupOpen}
+      onClose={closeAllPopups}
+      buttonText={'Сохранить'}>
+        <label className="popup__field">
+          <input type="url" name="link" id="avatar-link-input" placeholder="Ссылка на аватар" className="popup__input popup__input_type_avatar" required />
+          <span className="popup__error-message popup__error-message_visible avatar-link-input-error"></span>
+        </label>
+    </PopupWithForm>
+
     <div className="popup popup_type_view-image">
       <div className="popup__container-image">
         <button type="button" className="popup__button-close"></button>
@@ -54,21 +90,7 @@ function App() {
           <h2 className="popup__image-description"></h2>
       </div>
     </div>
-    <div className="popup popup_type_edit-avatar">
-      <div className="popup__container">
-        <button type="button" className="popup__button-close"></button>
-        <h2 className="popup__title">Обновить аватар</h2>
-        <form name="form-edit-avatar" className="popup__form">
-          <fieldset className="popup__fieldset">
-              <label className="popup__field">
-              <input type="url" name="link" id="avatar-link-input" placeholder="Ссылка на аватар" className="popup__input popup__input_type_avatar" required />
-              <span className="popup__error-message popup__error-message_visible avatar-link-input-error"></span>
-            </label>
-            <button type="submit" className="popup__button-save">Сохранить</button>
-          </fieldset>
-        </form>
-      </div>
-    </div>
+
     <div className="popup popup_type_confirm">
       <div className="popup__container">
         <button type="button" className="popup__button-close"></button>
