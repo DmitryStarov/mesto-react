@@ -36,7 +36,7 @@ function closeAllPopups() {
   setSelectedCard(null);
 }
   return (
-    <body className="page">
+    <div className="page">
     <Header />
 
     <Main
@@ -98,7 +98,7 @@ function closeAllPopups() {
 
     <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-</body>
+</div>
   );
 }
 

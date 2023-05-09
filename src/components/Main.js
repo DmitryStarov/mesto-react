@@ -1,7 +1,8 @@
-import React from "react";
-import { api } from "../utils/Api"
+import React from 'react';
+import { api } from '../utils/Api'
 import Cards from './Cards';
-function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
+
+export default function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
 
   const [userName, setUserName] = React.useState();
   const [userDescription, setUserDescription] = React.useState();
@@ -42,7 +43,7 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
       <section className="photo-grid">
         <ul className="cards">
           {cards.map(card => (
-            <Cards card={card} onCardClick={onCardClick}/>
+            <Cards card={card} onCardClick={onCardClick} key={card._id}/>
           ))}
         </ul>
       </section>
@@ -51,4 +52,4 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
     )
 }
 
-export default Main
+

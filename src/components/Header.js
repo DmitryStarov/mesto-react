@@ -1,5 +1,5 @@
 import logo from '../image/logo.svg'
-function Header() {
+export default function Header() {
     return (
     <header className="header">
       <img src={logo} alt="логотип" className="header__logo"/>
@@ -7,4 +7,3 @@ function Header() {
     )
 }
 
-export default Header
