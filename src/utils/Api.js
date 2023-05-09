@@ -1,98 +1,93 @@
 import { connectionSettings } from "./constants";
 class Api {
-  constructor({baseUrl, headers}) {
+  constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
-
   }
-//проверка статуса ответа от сервера
+  //проверка статуса ответа от сервера
   _checkResponse(res) {
     if (res.ok) {
-      return res.json()
+      return res.json();
     }
-     return Promise.reject(res.status);
+    return Promise.reject(res.status);
   }
+  _request(url, options) {
+    return fetch(`${this._baseUrl}${url}`, options).then(this._checkResponse);
+  }
+
   //получение данных пользователя
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, {
-      headers : this._headers})
-      .then (this._checkResponse);
+    return this._request("/users/me", {
+      headers: this._headers,
+    });
   }
 
   //редактирование данных пользователя
   patchProfile(userData) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      method: 'PATCH',
-      headers : this._headers,
+    return this._request("/users/me", {
+      method: "PATCH",
+      headers: this._headers,
       body: JSON.stringify({
         name: userData.name,
         about: userData.about,
-      })
-    })
-    .then (this._checkResponse);
+      }),
+    });
   }
 
   //редактирование автара
-  patchAvatar(avatar){
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: 'PATCH',
-      headers : this._headers,
+  patchAvatar(avatar) {
+    return this._request("/users/me/avatar", {
+      method: "PATCH",
+      headers: this._headers,
       body: JSON.stringify({
         avatar: avatar.link,
-      })
-    })
-    .then (this._checkResponse);
+      }),
+    });
   }
 
   //получение карточек с сервера
   getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
+    return this._request("/cards", {
       method: "GET",
-      headers : this._headers})
-      .then (this._checkResponse);
+      headers: this._headers,
+    });
   }
 
   //добавление карточки
   postCard(cardData) {
-    return fetch(`${this._baseUrl}/cards`, {
-      method: 'POST',
-      headers : this._headers,
+    return this._request("/cards", {
+      method: "POST",
+      headers: this._headers,
       body: JSON.stringify({
         name: cardData.name,
-        link: cardData.link
-      })
-    })
-    .then (this._checkResponse);
+        link: cardData.link,
+      }),
+    });
   }
 
   //удаление карточки
   deleteCard(cardId) {
-  console.log(cardId)
-  return fetch(`${this._baseUrl}/cards/${cardId}`, {
-    method: 'DELETE',
-    headers : this._headers
-  })
-  .then (this._checkResponse);
+    return this._request(`/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    });
   }
 
   //ставит лайк
   putLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-    method: 'PUT',
-    headers : this._headers
-    })
-    .then (this._checkResponse);
+    return this._request(`/cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: this._headers,
+    });
   }
 
   //удаляет лайк
   deleteLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-    method: 'DELETE',
-    headers : this._headers
-    })
-    .then (this._checkResponse);
+    return this._request(`/cards/${cardId}/likes`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
-
 }
 export const api = new Api(connectionSettings);

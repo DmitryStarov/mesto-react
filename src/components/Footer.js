@@ -4,6 +4,5 @@ export default function Footer() {
     <footer className="footer">
       <p className="footer__text">© {date.getFullYear()} Mesto Russia</p>
     </footer>
-    )
+  );
 }
-

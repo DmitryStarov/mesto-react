@@ -1,20 +1,24 @@
-export default function Card({card, onCardClick}) {
-
+export default function Card({ card, onCardClick }) {
   function handleCardClick() {
     onCardClick(card);
   }
 
-  return(
+  return (
     <li className="cards__item">
-    <img className="cards__image" alt={card.name} src={card.link} onClick={handleCardClick} />
-    <button type="button" className="cards__button-remove"></button>
-    <div className="cards__description">
-      <h2 className="cards__title">{card.name}</h2>
-      <div className="cards__like-container">
-        <button type="button" className="cards__button-like"></button>
-        <span className="cards__like-count">{card.likes.length}</span>
+      <img
+        className="cards__image"
+        alt={card.name}
+        src={card.link}
+        onClick={handleCardClick}
+      />
+      <button type="button" className="cards__button-remove"></button>
+      <div className="cards__description">
+        <h2 className="cards__title">{card.name}</h2>
+        <div className="cards__like-container">
+          <button type="button" className="cards__button-like"></button>
+          <span className="cards__like-count">{card.likes.length}</span>
+        </div>
       </div>
-    </div>
-  </li>
-  )
+    </li>
+  );
 }
