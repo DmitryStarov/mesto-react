@@ -1,4 +1,4 @@
-export default function Cards({card, onCardClick}) {
+export default function Card({card, onCardClick}) {
 
   function handleCardClick() {
     onCardClick(card);

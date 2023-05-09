@@ -1,6 +1,6 @@
 import React from 'react';
 import { api } from '../utils/Api'
-import Cards from './Cards';
+import Card from './Card';
 
 export default function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
 
@@ -43,7 +43,7 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatar, onCardCli
       <section className="photo-grid">
         <ul className="cards">
           {cards.map(card => (
-            <Cards card={card} onCardClick={onCardClick} key={card._id}/>
+            <Card card={card} onCardClick={onCardClick} key={card._id}/>
           ))}
         </ul>
       </section>
