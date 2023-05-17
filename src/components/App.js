@@ -49,6 +49,17 @@ export default function App() {
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
   }
+
+  const handleCardLike = (currentCard, isLiked) => {
+    api
+      .changeLikeCardStatus(currentCard._id, isLiked)
+      .then((newCard) => {
+        setCards(
+          cards.map((card) => (card._id === currentCard._id ? newCard : card))
+        );
+      })
+      .catch((error) => console.log(`Ошибка: ${error}`));
+  };
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -59,6 +70,7 @@ export default function App() {
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
           cards={cards}
         />
 

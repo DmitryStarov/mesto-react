@@ -75,7 +75,7 @@ class Api {
   }
 
   //ставит лайк
-  putLike(cardId) {
+  _putLike(cardId) {
     return this._request(`/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
@@ -83,11 +83,15 @@ class Api {
   }
 
   //удаляет лайк
-  deleteLike(cardId) {
+  _deleteLike(cardId) {
     return this._request(`/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
-    }).then(this._checkResponse);
+    });
+  }
+
+  changeLikeCardStatus(cardId, isLiked) {
+    return isLiked ? this._deleteLike(cardId) : this._putLike(cardId);
   }
 }
 export const api = new Api(connectionSettings);

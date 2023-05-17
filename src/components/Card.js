@@ -1,19 +1,24 @@
 import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-export default function Card({ card, onCardClick }) {
-  function handleCardClick() {
-    onCardClick(card);
-  }
 
+export default function Card({ card, onCardClick, onCardLike }) {
   const currentUser = React.useContext(CurrentUserContext);
   // Определяем, являемся ли мы владельцем текущей карточки
   const isOwner = card.owner._id === currentUser._id;
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-  const isLiked = card.likes.some((i) => i._id === currentUser._id);
+  const isLiked = card.likes.some((owner) => owner._id === currentUser._id);
   // Создаём переменную, которую после зададим в `className` для кнопки лайка
-  const cardLikeButtonClassName = `cards__button-like ${
-    isLiked && "cards__button-like_action"
-  }`;
+  const cardLikeButtonClassName = isLiked
+    ? "cards__button-like cards__button-like_action"
+    : "cards__button-like";
+
+  function handleCardClick() {
+    onCardClick(card);
+  }
+
+  const handleCardLike = () => {
+    onCardLike(card, isLiked);
+  };
 
   return (
     <li className="cards__item">
@@ -27,7 +32,11 @@ export default function Card({ card, onCardClick }) {
       <div className="cards__description">
         <h2 className="cards__title">{card.name}</h2>
         <div className="cards__like-container">
-          <button type="button" className={cardLikeButtonClassName} />
+          <button
+            type="button"
+            className={cardLikeButtonClassName}
+            onClick={handleCardLike}
+          />
           <span className="cards__like-count">{card.likes.length}</span>
         </div>
       </div>

@@ -7,6 +7,7 @@ export default function Main({
   onAddPlace,
   onEditAvatar,
   onCardClick,
+  onCardLike,
   cards,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
@@ -42,7 +43,12 @@ export default function Main({
       <section className="photo-grid">
         <ul className="cards">
           {cards.map((card) => (
-            <Card card={card} onCardClick={onCardClick} key={card._id} />
+            <Card
+              card={card}
+              onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              key={card._id}
+            />
           ))}
         </ul>
       </section>
