@@ -1,5 +1,5 @@
 .cards__button-remove {
-  display: none;
+  display: block;
   width: 18px;
   height: 19px;
   background-image: url(../../../image/button-remove.svg);
