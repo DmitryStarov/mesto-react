@@ -8,7 +8,8 @@ export default function Main({
   onEditAvatar,
   onCardClick,
   onCardLike,
-  cards,
+  onCardDelete,
+  cards
 }) {
   const currentUser = React.useContext(CurrentUserContext);
 
@@ -47,6 +48,7 @@ export default function Main({
               card={card}
               onCardClick={onCardClick}
               onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
               key={card._id}
             />
           ))}

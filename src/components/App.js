@@ -50,7 +50,7 @@ export default function App() {
     setSelectedCard(null);
   }
 
-  const handleCardLike = (currentCard, isLiked) => {
+  function handleCardLike(currentCard, isLiked) {
     api
       .changeLikeCardStatus(currentCard._id, isLiked)
       .then((newCard) => {
@@ -59,7 +59,15 @@ export default function App() {
         );
       })
       .catch((error) => console.log(`Ошибка: ${error}`));
-  };
+  }
+
+  function handleCardDelete(currentCard) {
+    api.deleteCard(currentCard._id).then(() => {
+      setCards(cards.filter((card) => card._id !== currentCard._id)
+      );
+    });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -71,6 +79,7 @@ export default function App() {
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
           cards={cards}
         />
 
