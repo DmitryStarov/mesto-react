@@ -18,7 +18,7 @@ export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
 
   function handleCardLike() {
     onCardLike(card, isLiked);
-  };
+  }
 
   function handleCardDelete() {
     onCardDelete(card);
@@ -32,7 +32,13 @@ export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
         src={card.link}
         onClick={handleCardClick}
       />
-      {isOwner && <button type="button" className="cards__button-remove" onClick={handleCardDelete} />}
+      {isOwner && (
+        <button
+          type="button"
+          className="cards__button-remove"
+          onClick={handleCardDelete}
+        />
+      )}
       <div className="cards__description">
         <h2 className="cards__title">{card.name}</h2>
         <div className="cards__like-container">

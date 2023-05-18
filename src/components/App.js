@@ -63,8 +63,7 @@ export default function App() {
 
   function handleCardDelete(currentCard) {
     api.deleteCard(currentCard._id).then(() => {
-      setCards(cards.filter((card) => card._id !== currentCard._id)
-      );
+      setCards(cards.filter((card) => card._id !== currentCard._id));
     });
   }
 
