@@ -7,6 +7,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/Api";
+import EditProfilePopup from "./EditProfilePopup";
 
 export default function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -67,6 +68,16 @@ export default function App() {
     });
   }
 
+  function handleUpdateProfile(data) {
+    api
+    .patchProfile(data)
+    .then((res) => {
+      setCurrentUser(res);
+      closeAllPopups();
+    })
+    .catch(error => console.log(`Ошибка: ${error}`))
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -83,44 +94,11 @@ export default function App() {
         />
 
         <Footer />
-
-        <PopupWithForm
-          name={"edit-user"}
-          title={"Редактировать профиль"}
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          buttonText={"Сохранить"}
-        >
-          {" "}
-          <label className="popup__field">
-            <input
-              type="text"
-              name="name"
-              id="name-input"
-              placeholder="Имя пользователя"
-              className="popup__input popup__input_type_name"
-              minLength="2"
-              maxLength="40"
-              autoComplete="off"
-              required
-            />
-            <span className="popup__error-message name-input-error"></span>
-          </label>
-          <label className="popup__field">
-            <input
-              type="text"
-              name="about"
-              id="about-input"
-              placeholder="О себе"
-              className="popup__input popup__input_type_about"
-              minLength="2"
-              maxLength="200"
-              autoComplete="off"
-              required
-            />
-            <span className="popup__error-message popup__error-message_visible about-input-error"></span>
-          </label>
-        </PopupWithForm>
+          onUpdateProfile={handleUpdateProfile}
+        />
 
         <PopupWithForm
           name="add-image"

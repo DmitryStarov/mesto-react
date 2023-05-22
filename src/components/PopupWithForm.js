@@ -3,6 +3,7 @@ export default function PopupWithForm({
   title,
   isOpen,
   onClose,
+  onSubmit,
   children,
   buttonText,
 }) {
@@ -15,7 +16,7 @@ export default function PopupWithForm({
           onClick={onClose}
         />
         <h2 className="popup__title">{title}</h2>
-        <form name={name} className="popup__form">
+        <form name={name} className="popup__form" onSubmit={onSubmit}>
           <fieldset className="popup__fieldset">
             {children}
             <button type="submit" className="popup__button-save">
