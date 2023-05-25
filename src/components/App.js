@@ -9,6 +9,7 @@ import { api } from "../utils/Api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import ConfirmPopup from "./ConfirmPopup";
 
 export default function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -17,6 +18,7 @@ export default function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
+  const [deletedCard, setDeletedCard] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [cards, setCards] = React.useState([]);
 
@@ -49,6 +51,7 @@ export default function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setDeletedCard(null);
     setSelectedCard(null);
   }
 
@@ -64,9 +67,17 @@ export default function App() {
   }
 
   function handleCardDelete(currentCard) {
-    api.deleteCard(currentCard._id).then(() => {
-      setCards(cards.filter((card) => card._id !== currentCard._id));
-    });
+    setDeletedCard(currentCard);
+  }
+
+  function handleConfirmCardDelete() {
+    api
+      .deleteCard(deletedCard._id)
+      .then(() => {
+        setCards(cards.filter((card) => card._id !== deletedCard._id));
+        closeAllPopups();
+      })
+      .catch((error) => console.log(`Ошибка: ${error}`));
   }
 
   function handleUpdateProfile(data) {
@@ -132,7 +143,11 @@ export default function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-
+        <ConfirmPopup
+          isOpen={deletedCard}
+          onClose={closeAllPopups}
+          onConfirm={handleConfirmCardDelete}
+        />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
     </CurrentUserContext.Provider>
