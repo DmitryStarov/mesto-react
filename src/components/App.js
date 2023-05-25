@@ -3,12 +3,12 @@ import "../App.css";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/Api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 export default function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -89,6 +89,16 @@ export default function App() {
       .catch((error) => console.log(`Ошибка: ${error}`));
   }
 
+  function handleAddPlace(data) {
+    api
+      .postCard(data)
+      .then((res) => {
+        setCards([res, ...cards]);
+        closeAllPopups();
+      })
+      .catch((error) => console.log(`Ошибка: ${error}`));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -111,39 +121,11 @@ export default function App() {
           onUpdateProfile={handleUpdateProfile}
         />
 
-        <PopupWithForm
-          name="add-image"
-          title="Новое место"
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          buttonText={"Создать"}
-        >
-          <label className="popup__field">
-            <input
-              type="text"
-              name="name"
-              id="image-input"
-              placeholder="Название"
-              className="popup__input popup__input_type_image-name"
-              minLength="2"
-              maxLength="30"
-              autoComplete="off"
-              required
-            />
-            <span className="popup__error-message popup__error-message_visible image-input-error"></span>
-          </label>
-          <label className="popup__field">
-            <input
-              type="url"
-              name="link"
-              id="link-input"
-              placeholder="Ссылка на картинку"
-              className="popup__input popup__input_type_image-link"
-              required
-            />
-            <span className="popup__error-message popup__error-message_visible link-input-error"></span>
-          </label>
-        </PopupWithForm>
+          onAddPlace={handleAddPlace}
+        />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
