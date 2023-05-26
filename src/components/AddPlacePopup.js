@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+export default function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText }) {
   const [inputValues, setInputValues] = React.useState({});
 
   function handleChange(evt) {
@@ -19,7 +19,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      buttonText={"Создать"}
+      buttonText={buttonText}
     >
       <label className="popup__field">
         <input

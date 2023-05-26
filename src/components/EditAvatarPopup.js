@@ -2,7 +2,7 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonText }) {
   const currentUser = React.useContext(CurrentUserContext);
   const [inputValues, setInputValues] = React.useState({});
 
@@ -17,7 +17,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onUpdateAvatar(inputValues);
+    onUpdateAvatar(inputValues)
   }
   return (
     <PopupWithForm
@@ -26,7 +26,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      buttonText={"Сохранить"}
+      buttonText={buttonText}
     >
       <label className="popup__field">
         <input

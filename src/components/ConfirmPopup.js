@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function ConfirmPopup({ isOpen, onClose, onConfirm }) {
+export default function ConfirmPopup({ isOpen, onClose, onConfirm, buttonText }) {
   const handleConfirm = (evt) => {
     evt.preventDefault();
     onConfirm();
@@ -13,7 +13,7 @@ export default function ConfirmPopup({ isOpen, onClose, onConfirm }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleConfirm}
-      buttonText={"Да"}
+      buttonText={buttonText}
     />
   );
 }

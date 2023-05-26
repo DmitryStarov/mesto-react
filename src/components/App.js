@@ -21,7 +21,11 @@ export default function App() {
   const [deletedCard, setDeletedCard] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [cards, setCards] = React.useState([]);
-
+  const [buttonTextAddPopup, setButtonTextAddPopup] = React.useState("Создать");
+  const [buttonTextEditPopup, setButtonTextEditPopup] =
+    React.useState("Сохранить");
+  const [buttonTextConfirmPopup, setButtonTextConfirmPopup] =
+    React.useState("Да");
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
@@ -71,43 +75,59 @@ export default function App() {
   }
 
   function handleConfirmCardDelete() {
+    setButtonTextConfirmPopup("Сохранение...");
     api
       .deleteCard(deletedCard._id)
       .then(() => {
         setCards(cards.filter((card) => card._id !== deletedCard._id));
         closeAllPopups();
       })
-      .catch((error) => console.log(`Ошибка: ${error}`));
+      .catch((error) => console.log(`Ошибка: ${error}`))
+      .finally(() => {
+        setButtonTextConfirmPopup("Да");
+      });
   }
 
   function handleUpdateProfile(data) {
+    setButtonTextEditPopup("Сохранение...");
     api
       .patchProfile(data)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch((error) => console.log(`Ошибка: ${error}`));
+      .catch((error) => console.log(`Ошибка: ${error}`))
+      .finally(() => {
+        setButtonTextEditPopup("Сохранить");
+      });
   }
 
   function handleUpdateAvatar(data) {
+    setButtonTextEditPopup("Сохранение...");
     api
       .patchAvatar(data)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch((error) => console.log(`Ошибка: ${error}`));
+      .catch((error) => console.log(`Ошибка: ${error}`))
+      .finally(() => {
+        setButtonTextEditPopup("Сохранить");
+      });
   }
 
   function handleAddPlace(data) {
+    setButtonTextAddPopup("Сохранение...");
     api
       .postCard(data)
       .then((res) => {
         setCards([res, ...cards]);
         closeAllPopups();
       })
-      .catch((error) => console.log(`Ошибка: ${error}`));
+      .catch((error) => console.log(`Ошибка: ${error}`))
+      .finally(() => {
+        setButtonTextAddPopup("Создать");
+      });
   }
 
   return (
@@ -130,23 +150,27 @@ export default function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateProfile={handleUpdateProfile}
+          buttonText={buttonTextEditPopup}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlace}
+          buttonText={buttonTextAddPopup}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          buttonText={buttonTextEditPopup}
         />
         <ConfirmPopup
           isOpen={deletedCard}
           onClose={closeAllPopups}
           onConfirm={handleConfirmCardDelete}
+          buttonText={buttonTextConfirmPopup}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>

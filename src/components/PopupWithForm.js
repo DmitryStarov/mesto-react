@@ -1,3 +1,4 @@
+import React from "react";
 export default function PopupWithForm({
   name,
   title,
@@ -7,8 +8,25 @@ export default function PopupWithForm({
   children,
   buttonText,
 }) {
+  function handleOverlayClick(evt) {
+    if (evt.target === evt.currentTarget) onClose();
+  }
+  React.useEffect(() => {
+    const handleEscClose = (evt) => {
+      if (evt.key === "Escape") onClose();
+    };
+    if (isOpen) document.addEventListener("keydown", handleEscClose);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  });
+
   return (
-    <div className={`popup popup_type_${name} ${isOpen && "popup_opened"}`}>
+    <div
+      className={`popup popup_type_${name} ${isOpen && "popup_opened"}`}
+      onMouseDown={handleOverlayClick}
+    >
       <div className="popup__container">
         <button
           type="button"
