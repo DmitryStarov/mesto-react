@@ -1,13 +1,22 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import useValidator from "../hooks/useValidator";
 
-export default function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText }) {
-  const [inputValues, setInputValues] = React.useState({});
+export default function AddPlacePopup({
+  isOpen,
+  onClose,
+  onAddPlace,
+  buttonText,
+}) {
+  const {
+    inputValues,
+    setInputValues,
+    errors,
+    handleChange,
+    resetValidation,
+    isValid,
+  } = useValidator();
 
-  function handleChange(evt) {
-    const { value, name } = evt.target;
-    setInputValues({ ...inputValues, [name]: value });
-  }
   function handleSubmit(evt) {
     evt.preventDefault();
     onAddPlace(inputValues);
@@ -20,6 +29,8 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText 
       onClose={onClose}
       onSubmit={handleSubmit}
       buttonText={buttonText}
+      resetValidation={resetValidation}
+      isValid={isValid}
     >
       <label className="popup__field">
         <input
@@ -32,9 +43,10 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText 
           maxLength="30"
           autoComplete="off"
           onChange={handleChange}
+          value={inputValues.name}
           required
         />
-        <span className="popup__error-message popup__error-message_visible image-input-error"></span>
+        <span className="popup__error-message">{errors.name}</span>
       </label>
       <label className="popup__field">
         <input
@@ -44,9 +56,10 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonText 
           placeholder="Ссылка на картинку"
           className="popup__input popup__input_type_image-link"
           onChange={handleChange}
+          value={inputValues.link}
           required
         />
-        <span className="popup__error-message popup__error-message_visible link-input-error"></span>
+        <span className="popup__error-message">{errors.link}</span>
       </label>
     </PopupWithForm>
   );

@@ -7,11 +7,16 @@ export default function PopupWithForm({
   onSubmit,
   children,
   buttonText,
+  resetValidation,
+  isValid,
 }) {
   function handleOverlayClick(evt) {
     if (evt.target === evt.currentTarget) onClose();
   }
   React.useEffect(() => {
+    if (resetValidation) {
+      resetValidation();
+    }
     const handleEscClose = (evt) => {
       if (evt.key === "Escape") onClose();
     };
@@ -20,7 +25,7 @@ export default function PopupWithForm({
     return () => {
       document.removeEventListener("keydown", handleEscClose);
     };
-  });
+  }, [isOpen]);
 
   return (
     <div
@@ -37,7 +42,13 @@ export default function PopupWithForm({
         <form name={name} className="popup__form" onSubmit={onSubmit}>
           <fieldset className="popup__fieldset">
             {children}
-            <button type="submit" className="popup__button-save">
+            <button
+              type="submit"
+              className={`popup__button-save ${
+                !isValid && "popup__button-save_disable"
+              }`}
+              disabled={!isValid}
+            >
               {buttonText}
             </button>
           </fieldset>

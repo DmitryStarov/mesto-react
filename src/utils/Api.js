@@ -36,12 +36,12 @@ class Api {
   }
 
   //редактирование автара
-  patchAvatar(avatar) {
+  patchAvatar(data) {
     return this._request("/users/me/avatar", {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: avatar.link,
+        avatar: data.avatar,
       }),
     });
   }

@@ -1,24 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
+import useValidator from "../hooks/useValidator";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdateProfile, buttonText }) {
-  const currentUser = React.useContext(CurrentUserContext);
-  const [inputValues, setInputValues] = React.useState({});
+export default function EditProfilePopup({
+  isOpen,
+  onClose,
+  onUpdateProfile,
+  buttonText,
+}) {
+  const {
+    inputValues,
+    setInputValues,
+    errors,
+    handleChange,
+    resetValidation,
+    isValid,
+  } = useValidator();
 
-  function handleChange(evt) {
-    const { value, name } = evt.target;
-    setInputValues({ ...inputValues, [name]: value });
-  }
+  const { name, about } = React.useContext(CurrentUserContext);
 
-  React.useEffect(() => {
-    setInputValues(currentUser);
-  }, [currentUser]);
+  useEffect(() => {
+    setInputValues({ name, about });
+  }, [isOpen, name, about]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
     onUpdateProfile(inputValues);
   }
+
   return (
     <PopupWithForm
       name={"edit-user"}
@@ -27,6 +37,8 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateProfile, but
       onClose={onClose}
       onSubmit={handleSubmit}
       buttonText={buttonText}
+      resetValidation={resetValidation}
+      isValid={isValid}
     >
       {" "}
       <label className="popup__field">
@@ -39,11 +51,11 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateProfile, but
           minLength="2"
           maxLength="40"
           autoComplete="off"
-          defaultValue={inputValues.name || currentUser.name}
+          value={inputValues.name}
           onChange={handleChange}
           required
         />
-        <span className="popup__error-message name-input-error"></span>
+        <span className="popup__error-message">{errors.name}</span>
       </label>
       <label className="popup__field">
         <input
@@ -55,11 +67,11 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateProfile, but
           minLength="2"
           maxLength="200"
           autoComplete="off"
-          defaultValue={inputValues.about || currentUser.about}
+          value={inputValues.about}
           onChange={handleChange}
           required
         />
-        <span className="popup__error-message popup__error-message_visible about-input-error"></span>
+        <span className="popup__error-message">{errors.about}</span>
       </label>
     </PopupWithForm>
   );

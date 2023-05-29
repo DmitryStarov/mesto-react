@@ -46,6 +46,11 @@ export default function App() {
     setIsAddPlacePopupOpen(true);
   }
 
+  function handleCardDelete(currentCard) {
+    setButtonText("Да");
+    setDeletedCard(currentCard);
+  }
+
   function handleCardClick(card) {
     setSelectedCard(card);
   }
@@ -69,13 +74,8 @@ export default function App() {
       .catch((error) => console.log(`Ошибка: ${error}`));
   }
 
-  function handleCardDelete(currentCard) {
-    setButtonText("Да");
-    setDeletedCard(currentCard);
-  }
-
   function handleConfirmCardDelete() {
-    setButtonText("Сохранение...");
+    setButtonText("Удаление...");
     api
       .deleteCard(deletedCard._id)
       .then(() => {
@@ -108,7 +108,7 @@ export default function App() {
   }
 
   function handleAddPlace(data) {
-    setButtonText("Сохранение...");
+    setButtonText("Создание...");
     api
       .postCard(data)
       .then((res) => {
