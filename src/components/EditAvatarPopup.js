@@ -34,7 +34,7 @@ export default function EditAvatarPopup({
           className={`popup__input popup__input_type_avatar ${
             errors?.avatar && "popup__input_error "
           }`}
-          value={inputValues.avatar}
+          value={inputValues.avatar || ""}
           onChange={handleChange}
           required
         />

@@ -22,7 +22,7 @@ export default function EditProfilePopup({
 
   useEffect(() => {
     setInputValues({ name, about });
-  }, [isOpen, name, about]);
+  }, [isOpen, name, about, setInputValues]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -51,7 +51,7 @@ export default function EditProfilePopup({
           minLength="2"
           maxLength="40"
           autoComplete="off"
-          value={inputValues.name}
+          value={inputValues.name || ""}
           onChange={handleChange}
           required
         />
@@ -67,7 +67,7 @@ export default function EditProfilePopup({
           minLength="2"
           maxLength="200"
           autoComplete="off"
-          value={inputValues.about}
+          value={inputValues.about || ""}
           onChange={handleChange}
           required
         />

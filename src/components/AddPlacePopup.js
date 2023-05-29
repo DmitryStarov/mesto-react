@@ -10,7 +10,6 @@ export default function AddPlacePopup({
 }) {
   const {
     inputValues,
-    setInputValues,
     errors,
     handleChange,
     resetValidation,
@@ -43,7 +42,7 @@ export default function AddPlacePopup({
           maxLength="30"
           autoComplete="off"
           onChange={handleChange}
-          value={inputValues.name}
+          value={inputValues.name || ""}
           required
         />
         <span className="popup__error-message">{errors.name}</span>
@@ -56,7 +55,7 @@ export default function AddPlacePopup({
           placeholder="Ссылка на картинку"
           className="popup__input popup__input_type_image-link"
           onChange={handleChange}
-          value={inputValues.link}
+          value={inputValues.link || ""}
           required
         />
         <span className="popup__error-message">{errors.link}</span>

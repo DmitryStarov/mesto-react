@@ -82,7 +82,8 @@ export default function App() {
         setCards(cards.filter((card) => card._id !== deletedCard._id));
         closeAllPopups();
       })
-      .catch((error) => console.log(`Ошибка: ${error}`));
+      .catch((error) => console.log(`Ошибка: ${error}`))
+      .finally(() => setButtonText("Да"));
   }
 
   function handleUpdateProfile(data) {
@@ -93,7 +94,8 @@ export default function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch((error) => console.log(`Ошибка: ${error}`));
+      .catch((error) => console.log(`Ошибка: ${error}`))
+      .finally(() => setButtonText("Сохранить"));
   }
 
   function handleUpdateAvatar(data) {
@@ -104,7 +106,8 @@ export default function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch((error) => console.log(`Ошибка: ${error}`));
+      .catch((error) => console.log(`Ошибка: ${error}`))
+      .finally(() => setButtonText("Сохранить"));
   }
 
   function handleAddPlace(data) {
@@ -115,7 +118,8 @@ export default function App() {
         setCards([res, ...cards]);
         closeAllPopups();
       })
-      .catch((error) => console.log(`Ошибка: ${error}`));
+      .catch((error) => console.log(`Ошибка: ${error}`))
+      .finally(() => setButtonText("Создать"));
   }
 
   return (
