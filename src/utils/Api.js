@@ -61,7 +61,7 @@ class Api {
       headers: this._headers,
       body: JSON.stringify({
         name: cardData.name,
-        link: cardData.link,
+        link: cardData.linkImage,
       }),
     });
   }

@@ -50,15 +50,15 @@ export default function AddPlacePopup({
       <label className="popup__field">
         <input
           type="url"
-          name="link"
+          name="linkImage"
           id="link-input"
           placeholder="Ссылка на картинку"
           className="popup__input popup__input_type_image-link"
           onChange={handleChange}
-          value={inputValues.link || ""}
+          value={inputValues.linkImage || ""}
           required
         />
-        <span className="popup__error-message">{errors.link}</span>
+        <span className="popup__error-message">{errors.linkImage}</span>
       </label>
     </PopupWithForm>
   );
